@@ -1,11 +1,22 @@
 import { useState, useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
-type Section = "welcome" | "about" | "cv" | "projects" | "hobbies" | "contact";
+type Section = "welcome" | "about" | "cv" | "projects" | "hobbies" | "contact" | "markets";
+
+interface MarketData {
+  symbol: string;
+  price: number;
+  change: number;
+  previousClose: number;
+}
 
 const Index = () => {
-  const [currentSection, setCurrentSection] = useState<Section>("welcome");
+  const { toast } = useToast();
+  const [currentSection, setCurrentSection] = useState<Section>("markets");
   const [displayedText, setDisplayedText] = useState("");
   const [clock, setClock] = useState("");
+  const [marketData, setMarketData] = useState<MarketData[]>([]);
 
   // Live clock
   useEffect(() => {
@@ -30,9 +41,58 @@ const Index = () => {
     return () => clearInterval(interval);
   }, []);
 
+  // Fetch market data
+  const fetchMarketData = async () => {
+    try {
+      const { data, error } = await supabase.functions.invoke('fetch-market-data');
+      
+      if (error) throw error;
+      
+      if (data?.data) {
+        setMarketData(data.data);
+      }
+    } catch (error) {
+      console.error('Error fetching market data:', error);
+      toast({
+        title: "Error",
+        description: "Failed to fetch market data",
+        variant: "destructive",
+      });
+    }
+  };
+
+  useEffect(() => {
+    fetchMarketData();
+    const interval = setInterval(fetchMarketData, 60000); // Refresh every minute
+    return () => clearInterval(interval);
+  }, []);
+
   // Content for each section
   const getContent = (section: Section): string => {
     switch (section) {
+      case "markets":
+        const marketLines = marketData.map(item => {
+          const symbolName = {
+            '^GSPC': 'S&P 500',
+            '^DJI': 'DOW JONES',
+            '^IXIC': 'NASDAQ',
+            'GC=F': 'GOLD',
+            'CL=F': 'CRUDE OIL',
+            '^TNX': '10Y TREASURY'
+          }[item.symbol] || item.symbol;
+          
+          const changeSign = item.change >= 0 ? '+' : '';
+          const changeColor = item.change >= 0 ? '▲' : '▼';
+          return `${symbolName.padEnd(15)} ${item.price.toFixed(2).padStart(10)} ${changeColor} ${changeSign}${item.change}%`;
+        }).join('\n');
+        
+        return `> GLOBAL MARKETS - LIVE DATA
+> Updated: ${new Date().toLocaleTimeString()}
+> 
+${marketLines || '> Loading market data...'}
+> 
+> Data refreshes every 60 seconds`;
+
       case "welcome":
         return `> Welcome to my terminal.
 > Authenticating... Success.
@@ -188,6 +248,12 @@ Open to opportunities in finance, fintech, and corporate strategy
 
         {/* Tab Navigation */}
         <div className="bg-terminal-gray border-b border-border flex gap-0 px-4">
+          <button
+            onClick={() => setCurrentSection("markets")}
+            className={`terminal-tab ${currentSection === "markets" ? "active" : ""}`}
+          >
+            Markets
+          </button>
           <button
             onClick={() => setCurrentSection("about")}
             className={`terminal-tab ${currentSection === "about" ? "active" : ""}`}
