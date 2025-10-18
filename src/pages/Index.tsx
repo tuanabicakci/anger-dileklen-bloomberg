@@ -36,7 +36,7 @@ const Index = () => {
       case "welcome":
         return `> Welcome to my terminal.
 > Authenticating... Success.
-> Please select a command below to begin.`;
+> Please select a command to begin.`;
       
       case "about":
         return `> ABOUT_ME.txt
@@ -147,7 +147,7 @@ Open to opportunities in finance, fintech, and corporate strategy
     }
   };
 
-  // Typing effect
+  // Faster typing effect
   useEffect(() => {
     const content = getContent(currentSection);
     setDisplayedText("");
@@ -160,7 +160,7 @@ Open to opportunities in finance, fintech, and corporate strategy
       } else {
         clearInterval(typingInterval);
       }
-    }, 5); // Fast typing for better UX
+    }, 1); // Ultra-fast typing
 
     return () => clearInterval(typingInterval);
   }, [currentSection]);
@@ -170,62 +170,65 @@ Open to opportunities in finance, fintech, and corporate strategy
       {/* Scanline overlay */}
       <div className="scanlines" />
       
-      <div className="min-h-screen bg-background p-4 screen-flicker">
-        {/* Header */}
-        <header className="terminal-panel p-4 mb-4">
-          <div className="flex justify-between items-center">
-            <h1 className="text-2xl font-bold text-terminal-cyan terminal-glow-strong">
-              ANGER DILEKLEN
-            </h1>
-            <div className="text-terminal-green terminal-glow font-mono">
+      <div className="min-h-screen bg-background screen-flicker">
+        {/* Bloomberg Header Bar */}
+        <div className="bloomberg-header px-4 py-2">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <span className="text-terminal-orange font-bold text-sm bg-terminal-orange/20 px-3 py-1 border border-terminal-orange/30">
+                ANGER DILEKLEN
+              </span>
+              <span className="text-terminal-white text-xs">Portfolio Terminal</span>
+            </div>
+            <div className="text-terminal-white text-xs font-mono">
               {clock}
             </div>
           </div>
-        </header>
+        </div>
+
+        {/* Tab Navigation */}
+        <div className="bg-terminal-gray border-b border-border flex gap-0 px-4">
+          <button
+            onClick={() => setCurrentSection("about")}
+            className={`terminal-tab ${currentSection === "about" ? "active" : ""}`}
+          >
+            About Me
+          </button>
+          <button
+            onClick={() => setCurrentSection("cv")}
+            className={`terminal-tab ${currentSection === "cv" ? "active" : ""}`}
+          >
+            CV / Resume
+          </button>
+          <button
+            onClick={() => setCurrentSection("projects")}
+            className={`terminal-tab ${currentSection === "projects" ? "active" : ""}`}
+          >
+            Projects
+          </button>
+          <button
+            onClick={() => setCurrentSection("hobbies")}
+            className={`terminal-tab ${currentSection === "hobbies" ? "active" : ""}`}
+          >
+            Hobbies
+          </button>
+          <button
+            onClick={() => setCurrentSection("contact")}
+            className={`terminal-tab ${currentSection === "contact" ? "active" : ""}`}
+          >
+            Contact
+          </button>
+        </div>
 
         {/* Main Content Panel */}
-        <main className="terminal-panel p-6 mb-4 h-[calc(100vh-250px)] overflow-y-auto">
-          <pre className="text-terminal-amber terminal-glow font-mono whitespace-pre-wrap leading-relaxed">
-            {displayedText}
-            <span className="cursor"></span>
-          </pre>
-        </main>
-
-        {/* Command Bar */}
-        <footer className="terminal-panel p-4">
-          <div className="flex flex-wrap gap-3 justify-center">
-            <button
-              onClick={() => setCurrentSection("about")}
-              className="terminal-button"
-            >
-              &lt;About Me&gt;
-            </button>
-            <button
-              onClick={() => setCurrentSection("cv")}
-              className="terminal-button"
-            >
-              &lt;CV / Resume&gt;
-            </button>
-            <button
-              onClick={() => setCurrentSection("projects")}
-              className="terminal-button"
-            >
-              &lt;Projects&gt;
-            </button>
-            <button
-              onClick={() => setCurrentSection("hobbies")}
-              className="terminal-button"
-            >
-              &lt;Hobbies&gt;
-            </button>
-            <button
-              onClick={() => setCurrentSection("contact")}
-              className="terminal-button"
-            >
-              &lt;Contact&gt;
-            </button>
+        <main className="p-4">
+          <div className="terminal-panel p-6 h-[calc(100vh-140px)] overflow-y-auto">
+            <pre className="text-terminal-amber terminal-glow font-mono whitespace-pre-wrap leading-relaxed text-sm">
+              {displayedText}
+              <span className="cursor"></span>
+            </pre>
           </div>
-        </footer>
+        </main>
       </div>
     </>
   );

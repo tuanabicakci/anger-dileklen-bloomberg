@@ -50,10 +50,12 @@ export default {
         terminal: {
           amber: "hsl(var(--terminal-amber))",
           green: "hsl(var(--terminal-green))",
+          red: "hsl(var(--terminal-red))",
           cyan: "hsl(var(--terminal-cyan))",
-          yellow: "hsl(var(--terminal-yellow))",
+          orange: "hsl(var(--terminal-orange))",
           white: "hsl(var(--terminal-white))",
           gray: "hsl(var(--terminal-gray))",
+          header: "hsl(var(--terminal-header))",
         },
       },
       fontFamily: {

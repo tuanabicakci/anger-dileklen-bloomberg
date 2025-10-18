@@ -8,43 +8,45 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Bloomberg Terminal Color Palette */
+    /* Bloomberg Terminal Color Palette - Muted */
     --background: 0 0% 0%;
-    --foreground: 45 100% 50%;
+    --foreground: 30 85% 45%;
     
-    --terminal-amber: 45 100% 50%;
-    --terminal-green: 120 100% 50%;
-    --terminal-cyan: 195 100% 50%;
-    --terminal-yellow: 60 100% 50%;
-    --terminal-white: 0 0% 100%;
-    --terminal-gray: 0 0% 20%;
+    --terminal-amber: 30 85% 45%;
+    --terminal-green: 120 40% 35%;
+    --terminal-red: 0 60% 35%;
+    --terminal-cyan: 195 50% 45%;
+    --terminal-orange: 25 90% 45%;
+    --terminal-white: 0 0% 85%;
+    --terminal-gray: 0 0% 15%;
+    --terminal-header: 0 65% 25%;
     
-    --primary: 45 100% 50%;
+    --primary: 30 85% 45%;
     --primary-foreground: 0 0% 0%;
     
-    --secondary: 195 100% 50%;
+    --secondary: 195 50% 45%;
     --secondary-foreground: 0 0% 0%;
     
-    --accent: 60 100% 50%;
+    --accent: 25 90% 45%;
     --accent-foreground: 0 0% 0%;
     
-    --muted: 0 0% 20%;
-    --muted-foreground: 45 100% 50%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 30 85% 45%;
     
-    --destructive: 0 100% 50%;
+    --destructive: 0 60% 35%;
     --destructive-foreground: 0 0% 100%;
     
-    --border: 45 100% 50%;
+    --border: 0 0% 20%;
     --input: 0 0% 10%;
-    --ring: 45 100% 50%;
+    --ring: 30 85% 45%;
     
     --radius: 0rem;
     
     --card: 0 0% 5%;
-    --card-foreground: 45 100% 50%;
+    --card-foreground: 30 85% 45%;
     
     --popover: 0 0% 5%;
-    --popover-foreground: 45 100% 50%;
+    --popover-foreground: 30 85% 45%;
   }
 }
 
@@ -82,20 +84,18 @@ All colors MUST be HSL.
     100% { transform: translateY(4px); }
   }
   
-  /* Terminal Text Glow */
+  /* Terminal Text Glow - Subtle */
   .terminal-glow {
     text-shadow: 
-      0 0 5px currentColor,
-      0 0 10px currentColor,
-      0 0 15px currentColor;
+      0 0 2px currentColor,
+      0 0 4px currentColor;
   }
   
   .terminal-glow-strong {
     text-shadow: 
-      0 0 5px currentColor,
-      0 0 10px currentColor,
-      0 0 20px currentColor,
-      0 0 30px currentColor;
+      0 0 3px currentColor,
+      0 0 6px currentColor,
+      0 0 10px currentColor;
   }
   
   /* Typing Cursor */
@@ -113,40 +113,42 @@ All colors MUST be HSL.
     50%, 100% { opacity: 0; }
   }
   
-  /* Terminal Button */
-  .terminal-button {
+  /* Terminal Tab Button */
+  .terminal-tab {
     position: relative;
     background: hsl(var(--terminal-gray));
-    border: 2px solid hsl(var(--terminal-amber));
-    color: hsl(var(--terminal-yellow));
-    padding: 0.75rem 1.5rem;
+    border: 1px solid hsl(0 0% 30%);
+    border-bottom: none;
+    color: hsl(var(--terminal-white));
+    padding: 0.5rem 1.25rem;
     font-family: 'Courier New', monospace;
-    font-weight: bold;
-    transition: all 0.2s;
-    box-shadow: 
-      0 0 10px hsl(var(--terminal-amber) / 0.3),
-      inset 0 0 10px hsl(var(--terminal-gray));
+    font-size: 0.875rem;
+    font-weight: normal;
+    transition: all 0.15s;
+    border-top: 2px solid transparent;
   }
   
-  .terminal-button:hover {
-    background: hsl(var(--terminal-amber) / 0.1);
-    box-shadow: 
-      0 0 20px hsl(var(--terminal-amber) / 0.6),
-      inset 0 0 20px hsl(var(--terminal-amber) / 0.1);
-    transform: translateY(-2px);
+  .terminal-tab:hover {
+    background: hsl(0 0% 12%);
+    color: hsl(var(--terminal-orange));
   }
   
-  .terminal-button:active {
-    transform: translateY(0);
+  .terminal-tab.active {
+    background: hsl(var(--background));
+    border-top: 2px solid hsl(var(--terminal-orange));
+    color: hsl(var(--terminal-orange));
+  }
+  
+  /* Bloomberg Header Bar */
+  .bloomberg-header {
+    background: hsl(var(--terminal-header));
+    border-bottom: 1px solid hsl(0 0% 15%);
   }
   
   /* Terminal Panel */
   .terminal-panel {
     background: hsl(var(--card));
-    border: 2px solid hsl(var(--terminal-amber));
-    box-shadow: 
-      0 0 20px hsl(var(--terminal-amber) / 0.3),
-      inset 0 0 30px rgba(0, 0, 0, 0.5);
+    border: 1px solid hsl(var(--border));
   }
   
   /* Screen Flicker */
