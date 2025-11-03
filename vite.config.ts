@@ -15,7 +15,7 @@ export default defineConfig(({ mode }) => ({
     tsconfigPaths(),
     mode === "development" && componentTagger(),
   ].filter(Boolean),
-  base: "/anger-dileklen-bloomberg/",
+  base: "/",
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
