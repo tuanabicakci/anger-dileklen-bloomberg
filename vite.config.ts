@@ -10,6 +10,7 @@ export default defineConfig(({ mode }) => ({
     port: 8080,
   },
   plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
+  base: '/<anger-dileklen-bloomberg>/',
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
