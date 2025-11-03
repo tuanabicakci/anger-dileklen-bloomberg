@@ -1,13 +1,17 @@
-name: Deploy to GitHub Pages
+name: Deploy Vite site to GitHub Pages
 
 on:
   push:
-    branches: [ main ] # or 'master' if you use that
+    branches: [ main ] # or 'master' if that's your default branch
 
 permissions:
   contents: read
   pages: write
   id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -27,7 +31,7 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Upload dist folder
+      - name: Upload built site
         uses: actions/upload-pages-artifact@v3
         with:
           path: dist
@@ -35,9 +39,6 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    permissions:
-      pages: write
-      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
